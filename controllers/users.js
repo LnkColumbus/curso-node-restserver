@@ -85,18 +85,13 @@ const patchUsers = (req, res) => {
     });
 }
 
-const deleteUsers = async(req, res) => {
+const deleteUsers = async(req = request, res = response) => {
 
     try {
         const { id } = req.params;
 
-        // Borrar fisicamente
-        // const user = await User.findByIdAndDelete(id);
         const user = await User.findByIdAndUpdate(id, { state: false }, { new: true });
-
-        res.json({
-            usuario: user
-        });
+        res.json(user);
     } catch (error) {
         console.log(error);
         res.status(500).json({
