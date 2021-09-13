@@ -4,9 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Denegado</title>
+    <title>Google Signin</title>
 </head>
 <body>
-    <h1>Acceso Denegado</h1>
+    <h1>Google Signin</h1>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <div id="g_id_onload"
+        data-client_id="56846292930-4f413q55r24m7cpt9isdmp71r309artb.apps.googleusercontent.com"
+        data-context="signin"
+        data-ux_mode="popup"
+        data-callback="handleCredentialResponse"
+        data-auto_prompt="false"
+    >
+    </div>
+
+    <div class="g_id_signin"
+        data-type="standard"
+        data-shape="pill"
+        data-theme="filled_black"
+        data-text="signin_with"
+        data-size="large"
+        data-locale="es-419"
+        data-logo_alignment="left"
+    >
+    </div>
+
+    <script>
+        const url = (window.location.hostname.includes('localhost'))
+            ? 'http://localhost:8080/api/auth/google'
+            : 'https://restserver-curso-node.herokuapp.com/api/auth/google';
+        
+        
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            const id_token = response.credential;
+            const data = { id_token };
+
+            fetch( url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify( data )
+            })
+            .then( res => res.json() )
+            .then( data => console.log('Nuestro server', data))
+            .catch( console.log );
+        }
+    </script>
 </body>
 </html>
