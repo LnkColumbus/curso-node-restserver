@@ -3,7 +3,6 @@ const { body, check } = require('express-validator');
 
 const router = Router();
 
-const { existsEmail } = require('../helpers/db-validators');
 const { validateFields } = require('../middlewares/validate-fields'); 
 const {
     login, googleSignIn
