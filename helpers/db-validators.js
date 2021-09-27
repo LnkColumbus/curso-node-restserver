@@ -10,6 +10,8 @@ const isValidRole = async( rol = '' ) => {
     if (!existeRol) {
         throw new Error(`El rol "${ rol }" no está registrado en la BD`);
     }
+
+    return true;
 }
 
 const existsEmail = async( email ) => {
@@ -17,6 +19,8 @@ const existsEmail = async( email ) => {
     if (existEmail) {
         throw new Error(`El email "${ email }" ya está registrado`);
     }
+
+    return true;
 }
 
 const existsUser = async( id ) => {
@@ -24,6 +28,8 @@ const existsUser = async( id ) => {
     if (!existUser) {
         throw new Error(`El id "${id}" no existe`);
     }
+
+    return true;
 }
 
 /**
@@ -35,6 +41,8 @@ const existsCategory = async( id ) => {
     if (!existCategory) {
         throw new Error(`El id "${id}" no existe`);
     }
+
+    return true;
 }
 
 const existsCategoryName = async( name ) => {
@@ -43,6 +51,7 @@ const existsCategoryName = async( name ) => {
     if( existCategoryName ) {
         throw new Error(`La categoría con el nombre: "${name} está duplicado"`)
     }
+    return true;
 }
 
 /**
@@ -54,6 +63,7 @@ const existsProduct = async( id ) => {
     if (!existProduct) {
         throw new Error(`El id "${id}" no existe`);
     }
+    return true;
 }
 
 const existsProductName = async( name ) => {
@@ -64,6 +74,20 @@ const existsProductName = async( name ) => {
     }
 }
 
+/**
+ * Validar coleccioes permitidas
+ */
+
+const validCollections = async( collection = '', collections = [] ) => {
+
+    const include = collections.includes( collection );
+    if ( !include ) {
+        throw new Error(`La colección ${ collection } no es permitida, ${collections}`)
+    }
+
+    return true;
+}
+
 module.exports = {
     existsCategory,
     existsCategoryName,
@@ -72,4 +96,5 @@ module.exports = {
     existsProductName,
     existsUser,
     isValidRole,
+    validCollections
 }
